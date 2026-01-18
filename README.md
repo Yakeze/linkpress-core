@@ -5,8 +5,6 @@ Core library for [LinkPress](https://github.com/mindori/linkpress) — the build
 [![npm version](https://img.shields.io/npm/v/@linkpress/core.svg)](https://www.npmjs.com/package/@linkpress/core)
 [![license](https://img.shields.io/github/license/mindori/linkpress-core)](./LICENSE)
 
----
-
 ## What's Inside
 
 | Module | Description |
@@ -15,15 +13,11 @@ Core library for [LinkPress](https://github.com/mindori/linkpress) — the build
 | **scraper** | URL content extraction with Cheerio |
 | **slack** | Slack API client & link extraction utilities |
 
----
-
 ## Installation
 
 ```bash
 npm install @linkpress/core
 ```
-
----
 
 ## Quick Start
 
@@ -111,8 +105,6 @@ const links = extractLinksFromMessages(messages);
 // → [{ url: 'https://...', messageText: '...' }, ...]
 ```
 
----
-
 ## Module Imports
 
 Import specific modules for tree-shaking:
@@ -130,8 +122,6 @@ import { scrapeUrl, parseHtml } from '@linkpress/core/scraper';
 // Slack only
 import { SlackClient, extractLinksFromMessages } from '@linkpress/core/slack';
 ```
-
----
 
 ## API Reference
 
@@ -208,24 +198,12 @@ await client.searchConversations(query);       // Search channels
 
 Extract URLs from Slack messages, filtering out internal tools and non-article links.
 
----
-
-## Supported AI Providers
-
-| Provider | Models |
-|----------|--------|
-| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Opus, etc. |
-| **OpenAI** | GPT-4o, GPT-4 Turbo, etc. |
-| **Google** | Gemini 1.5 Pro, Gemini 1.5 Flash, etc. |
-
----
 
 ## Used By
 
-- [LinkPress CLI](https://github.com/mindori/linkpress) — Turn Slack links into a personal tech magazine
+[LinkPress CLI](https://github.com/mindori/linkpress) — Turn Slack links into a personal tech magazine
 
----
 
-## License
+## Author
 
-MIT
+[Changmin (Chris) Kang](https://github.com/mindori)
