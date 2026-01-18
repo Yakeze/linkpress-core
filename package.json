@@ -1,0 +1,63 @@
+{
+  "name": "@linkpress/core",
+  "version": "0.1.0",
+  "description": "Core library for LinkPress - AI-powered article processing",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./ai": {
+      "import": "./dist/ai/index.js",
+      "types": "./dist/ai/index.d.ts"
+    },
+    "./scraper": {
+      "import": "./dist/scraper/index.js",
+      "types": "./dist/scraper/index.d.ts"
+    },
+    "./slack": {
+      "import": "./dist/slack/index.js",
+      "types": "./dist/slack/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@google/generative-ai": "^0.24.0",
+    "cheerio": "^1.0.0",
+    "openai": "^4.97.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "keywords": [
+    "linkpress",
+    "ai",
+    "article",
+    "summarization",
+    "slack",
+    "scraper"
+  ],
+  "author": "Changmin (Chris) Kang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mindori/linkpress-core"
+  },
+  "homepage": "https://github.com/mindori/linkpress-core#readme",
+  "bugs": {
+    "url": "https://github.com/mindori/linkpress-core/issues"
+  }
+}
