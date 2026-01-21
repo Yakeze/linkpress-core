@@ -3,7 +3,7 @@ import { callAnthropic, callOpenAI, callGemini } from './providers/index.js';
 
 function buildPrompt(title: string, content: string, url: string, language: string): string {
   const koreanRule = language === '한국어'
-    ? '\n6. KOREAN ONLY: Use formal polite speech (존댓말/합쇼체) consistently. End sentences with -습니다, -입니다, -됩니다. NEVER use casual speech (반말).'
+    ? '\n7. KOREAN ONLY: Use formal polite speech (존댓말/합쇼체) consistently. End sentences with -습니다, -입니다, -됩니다. NEVER use casual speech (반말).'
     : '';
 
   return `You are a SENIOR TECH JOURNALIST at a prestigious developer magazine.
@@ -31,7 +31,9 @@ TASK: Create a briefing in JSON format.
   "whyItMatters": "Why this matters to developers/readers (1-2 sentences)",
   "keyQuote": "Most impactful quote from the article (if any, otherwise empty string)",
   "tags": ["tag1", "tag2", "tag3"],
-  "difficulty": "beginner|intermediate|advanced"
+  "difficulty": "beginner|intermediate|advanced",
+  "isOutdated": false,
+  "outdatedReason": ""
 }
 
 ---
@@ -41,7 +43,13 @@ CRITICAL RULES:
 2. Headline should be ATTENTION-GRABBING but accurate—no clickbait lies.
 3. Key points should be ACTIONABLE insights, not just descriptions.
 4. Tags: use technical topics (frontend, backend, ai, devops, database, security, career, etc.)
-5. Difficulty: beginner (anyone can understand), intermediate (some experience needed), advanced (experts only)${koreanRule}
+5. Difficulty: beginner (anyone can understand), intermediate (some experience needed), advanced (experts only)
+6. OUTDATED CHECK: Determine if the content is still valid TODAY.
+   - isOutdated=true if: deprecated tools/APIs, superseded methods, version-specific guides for OLD versions, discontinued services
+   - isOutdated=false if: evergreen concepts, still-used technologies, timeless explanations, current best practices
+   - Examples of OUTDATED: "Webpack 4 config" (Webpack 5 is standard), "Create React App tutorial" (CRA deprecated), "GPT-3.5 API guide" (GPT-4o exists)
+   - Examples of NOT OUTDATED: "JavaScript closures explained", "React hooks guide", "Git branching strategies"
+   - If isOutdated=true, provide a brief reason in outdatedReason (in ${language})${koreanRule}
 
 OUTPUT: JSON only, no explanation outside JSON.`;
 }
@@ -71,6 +79,7 @@ function getDefaultSummary(title: string, url: string): ArticleSummary {
     whyItMatters: '',
     tags,
     difficulty: 'intermediate',
+    isOutdated: false,
   };
 }
 
@@ -121,6 +130,8 @@ export async function summarizeArticle(
       difficulty: ['beginner', 'intermediate', 'advanced'].includes(parsed.difficulty)
         ? parsed.difficulty
         : 'intermediate',
+      isOutdated: parsed.isOutdated === true,
+      outdatedReason: parsed.outdatedReason || undefined,
     };
   } catch {
     return getDefaultSummary(title, url);
@@ -145,6 +156,8 @@ export function parseSummary(summaryStr: string | undefined): ArticleSummary | n
       whyItMatters: '',
       tags: parsed.tags || [],
       difficulty: parsed.difficulty || 'intermediate',
+      isOutdated: parsed.isOutdated === true,
+      outdatedReason: parsed.outdatedReason || undefined,
     };
   } catch {
     return {
@@ -154,6 +167,7 @@ export function parseSummary(summaryStr: string | undefined): ArticleSummary | n
       whyItMatters: '',
       tags: [],
       difficulty: 'intermediate',
+      isOutdated: false,
     };
   }
 }

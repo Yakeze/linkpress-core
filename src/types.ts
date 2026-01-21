@@ -34,6 +34,8 @@ export interface ArticleSummary {
   keyQuote?: string;
   tags: string[];
   difficulty: 'beginner' | 'intermediate' | 'advanced';
+  isOutdated: boolean;
+  outdatedReason?: string;
 }
 
 export type ContentType = 'article' | 'announcement' | 'discussion' | 'reference' | 'social' | 'media' | 'internal' | 'other';
