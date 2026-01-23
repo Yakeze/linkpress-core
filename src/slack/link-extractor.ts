@@ -90,8 +90,10 @@ export function extractLinksFromMessages(messages: SlackMessage[]): ExtractedLin
   for (const message of messages) {
     if (message.text) {
       const urls = extractUrls(message.text);
+      // Slack ts is Unix timestamp in seconds (e.g., "1737532800.000000")
+      const timestamp = new Date(parseFloat(message.ts) * 1000);
       for (const url of urls.filter(isArticleUrl)) {
-        extractedLinks.push({ url, messageText: message.text });
+        extractedLinks.push({ url, messageText: message.text, timestamp });
       }
     }
   }

@@ -32,8 +32,8 @@ TASK: Create a briefing in JSON format.
   "keyQuote": "Most impactful quote from the article (if any, otherwise empty string)",
   "tags": ["tag1", "tag2", "tag3"],
   "difficulty": "beginner|intermediate|advanced",
-  "isOutdated": false,
-  "outdatedReason": ""
+  "isOutdated": true or false,
+  "outdatedReason": "reason if outdated, empty string if not"
 }
 
 ---
@@ -44,12 +44,11 @@ CRITICAL RULES:
 3. Key points should be ACTIONABLE insights, not just descriptions.
 4. Tags: use technical topics (frontend, backend, ai, devops, database, security, career, etc.)
 5. Difficulty: beginner (anyone can understand), intermediate (some experience needed), advanced (experts only)
-6. OUTDATED CHECK: Determine if the content is still valid TODAY.
-   - isOutdated=true if: deprecated tools/APIs, superseded methods, version-specific guides for OLD versions, discontinued services
-   - isOutdated=false if: evergreen concepts, still-used technologies, timeless explanations, current best practices
-   - Examples of OUTDATED: "Webpack 4 config" (Webpack 5 is standard), "Create React App tutorial" (CRA deprecated), "GPT-3.5 API guide" (GPT-4o exists)
-   - Examples of NOT OUTDATED: "JavaScript closures explained", "React hooks guide", "Git branching strategies"
-   - If isOutdated=true, provide a brief reason in outdatedReason (in ${language})${koreanRule}
+6. isOutdated: IMPORTANT! Set true if the article EXPLICITLY states:
+   - "deprecated", "outdated", "no longer maintained", "no longer recommended"
+   - "use X instead", "migrated to Y", "end of life", "sunset"
+   - 404/deleted page content
+   Do NOT guess—only explicit declaration in the content counts.${koreanRule}
 
 OUTPUT: JSON only, no explanation outside JSON.`;
 }
@@ -133,7 +132,8 @@ export async function summarizeArticle(
       isOutdated: parsed.isOutdated === true,
       outdatedReason: parsed.outdatedReason || undefined,
     };
-  } catch {
+  } catch (error) {
+    console.error('[AI Summary Error]', error instanceof Error ? error.message : String(error));
     return getDefaultSummary(title, url);
   }
 }

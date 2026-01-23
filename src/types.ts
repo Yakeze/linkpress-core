@@ -15,6 +15,7 @@ export interface Article {
   createdAt: Date;
   processedAt?: Date;
   readAt?: Date;
+  publishedAt?: Date;
 }
 
 export type AIProvider = 'anthropic' | 'openai' | 'gemini';
@@ -102,6 +103,7 @@ export interface SlackSource {
 export interface ExtractedLink {
   url: string;
   messageText: string;
+  timestamp: Date;
 }
 
 export interface ScrapedContent {
@@ -111,4 +113,31 @@ export interface ScrapedContent {
   siteName?: string;
   image?: string;
   sourceLabel?: string;
+  publishedAt?: string;
+  isOutdated?: boolean;
+  outdatedReason?: string;
+}
+
+export interface TechMention {
+  name: string;
+  version?: string;
+  apis?: string[];
+}
+
+export interface TechExtraction {
+  technologies: TechMention[];
+  publishDate?: string;
+}
+
+export interface OutdatedVerification {
+  query: string;
+  isDeprecated: boolean;
+  evidence?: string;
+}
+
+export interface OutdatedResult {
+  isOutdated: boolean;
+  confidence: number;
+  reason?: string;
+  verifications?: OutdatedVerification[];
 }

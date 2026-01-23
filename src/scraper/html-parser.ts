@@ -4,8 +4,6 @@ import type { ScrapedContent } from '../types.js';
 export function parseHtml(html: string, url: string): ScrapedContent {
   const $ = cheerio.load(html);
 
-  $('script, style, nav, footer, header, aside, .ads, .advertisement, .sidebar').remove();
-
   const title =
     $('meta[property="og:title"]').attr('content') ||
     $('meta[name="twitter:title"]').attr('content') ||
@@ -18,12 +16,18 @@ export function parseHtml(html: string, url: string): ScrapedContent {
     $('meta[name="twitter:description"]').attr('content') ||
     '';
 
+  const fullBodyText = $('body').text();
+  const outdatedCheck = detectOutdated(fullBodyText, title, description);
+
+  $('script, style, nav, footer, header, aside, .ads, .advertisement, .sidebar').remove();
+
   const siteName =
     $('meta[property="og:site_name"]').attr('content') ||
     new URL(url).hostname.replace('www.', '');
 
   const image = extractImage($, url);
   const sourceLabel = detectSourceLabel(url);
+  const publishedAt = extractPublishedDate($);
 
   let content = '';
 
@@ -63,6 +67,9 @@ export function parseHtml(html: string, url: string): ScrapedContent {
     siteName,
     image,
     sourceLabel,
+    publishedAt,
+    isOutdated: outdatedCheck.isOutdated,
+    outdatedReason: outdatedCheck.reason,
   };
 }
 
@@ -113,6 +120,75 @@ function isIconOrLogo(src: string): boolean {
     lower.endsWith('.svg') ||
     lower.includes('1x1') ||
     lower.includes('pixel');
+}
+
+function extractPublishedDate($: cheerio.CheerioAPI): string | undefined {
+  const dateSelectors = [
+    'meta[property="article:published_time"]',
+    'meta[name="pubdate"]',
+    'meta[name="publishdate"]',
+    'meta[name="date"]',
+    'meta[property="og:published_time"]',
+    'time[datetime]',
+    'time[pubdate]',
+    '.published',
+    '.post-date',
+    '.article-date',
+    '.entry-date',
+    '[itemprop="datePublished"]',
+  ];
+
+  for (const selector of dateSelectors) {
+    const el = $(selector).first();
+    const dateStr = el.attr('content') || el.attr('datetime') || el.text();
+    if (dateStr) {
+      const parsed = parseDate(dateStr);
+      if (parsed) return parsed;
+    }
+  }
+
+  return undefined;
+}
+
+function parseDate(dateStr: string): string | undefined {
+  const cleaned = dateStr.trim();
+  if (!cleaned) return undefined;
+
+  try {
+    const date = new Date(cleaned);
+    if (!isNaN(date.getTime())) {
+      return date.toISOString();
+    }
+  } catch {
+    return undefined;
+  }
+
+  return undefined;
+}
+
+function detectOutdated(content: string, title: string, description: string): { isOutdated: boolean; reason?: string } {
+  const textToCheck = `${title} ${description} ${content}`.toLowerCase();
+
+  // Explicit deprecation patterns - must be clear declarations
+  const patterns: { regex: RegExp; reason: string }[] = [
+    { regex: /\b(this|it) (is|has been) deprecated\b/i, reason: 'Article declares deprecation' },
+    { regex: /\bdeprecated[.!]?\s/i, reason: 'Content marked as deprecated' },
+    { regex: /\bno longer (maintained|recommended|supported)\b/i, reason: 'No longer maintained/supported' },
+    { regex: /\bend[- ]of[- ]life\b/i, reason: 'End of life' },
+    { regex: /\bhas been (sunset|discontinued|archived)\b/i, reason: 'Project discontinued' },
+    { regex: /\buse .{1,30} instead\b/i, reason: 'Recommends alternative' },
+    { regex: /\bmigrate[d]? to .{1,30}\b/i, reason: 'Migration recommended' },
+    { regex: /\breplace[d]? by .{1,30}\b/i, reason: 'Replaced by newer solution' },
+    { regex: /\b(this|the) (project|tool|library|package|framework) is (deprecated|archived)\b/i, reason: 'Project deprecated/archived' },
+  ];
+
+  for (const { regex, reason } of patterns) {
+    if (regex.test(textToCheck)) {
+      return { isOutdated: true, reason };
+    }
+  }
+
+  return { isOutdated: false };
 }
 
 function detectSourceLabel(url: string): string {
